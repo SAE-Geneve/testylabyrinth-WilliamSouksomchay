@@ -1,52 +1,83 @@
 #include "world.h"
-
+#include "character.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
 
 World::World(const std::string& map, int length) : hero_({0, 0})
 {
-	// TODO: Complete me!
+	int i = 0;
+	for (auto cell : map)
+	{
+		std::pair<int, int> pos = { i % length, i / length };
+		if (cell == 'P')
+		{
+			hero_.SetPosition(pos);
+			map_[pos] = 'P';
+		}
 }
 
-void World::EraseDead()
-{
-	// TODO: Complete me!
-}
+	void World::EraseDead()
+	{
+		int n = 0;
+		for (auto& enemy : enemies_)
+		{
+			if (enemy.IsDead())
+			{
+				enemies_.erase(enemies_.begin() + n);
+			}
+			n++;
+		}
+	}
 
 bool World::HasEnemies() const
 {
+	if (Enemy)
 	// TODO: Complete me!
 	return true;
 }
 
 std::pair<int, int> World::North(const Character& character) const
 {
-	// TODO: Complete me!
+	if (GetTile({ character.GetPosition().first, character.GetPosition().second - 1 }) != '.')
+	{
+		return character.GetPosition();
+	}
 	return { 0, 0 };
 }
 
 std::pair<int, int> World::South(const Character& character) const
 {
-	// TODO: Complete me!
+	if (GetTile({ character.GetPosition().first, character.GetPosition().second + 1 }) != '.')
+	{
+		return character.GetPosition();
+	}
 	return { 0, 0 };
 }
 
 std::pair<int, int> World::East(const Character& character) const
 {
-	// TODO: Complete me!
+	if (GetTile({ character.GetPosition().first + 1, character.GetPosition().second }) != '.')
+	{
+		return character.GetPosition();
 	return { 0, 0 };
 }
 
 std::pair<int, int> World::West(const Character& character) const
 {
-	// TODO: Complete me!
+	if (GetTile({ character.GetPosition().first - 1, character.GetPosition().second }) != '.')
+	{
+		return character.GetPosition();
+	}
 	return { 0, 0 };
 }
 
 void World::HeroAttack()
 {
-	// TODO: Complete me!
+	for (auto& enemy : enemies_)
+	{
+		hero_.Attack(enemy);
+	}
 }
 
 void World::ShowMap() const
@@ -105,7 +136,10 @@ void World::ShowEnemies() const
 
 void World::EnemyAttack()
 {
-	// TODO: Complete me!
+	for (auto& enemy : enemies_)
+	{
+		enemy.Attack(hero_);
+	}
 }
 
 std::pair<int, int> World::CheckPosition(

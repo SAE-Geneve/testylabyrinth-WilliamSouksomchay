@@ -1,5 +1,5 @@
 #include "character.h"
-
+#include <iostream>
 #include <cmath>
 #include <limits>
 
@@ -17,17 +17,27 @@ Character::Character(
 
 void Character::Attack(Character& enemy) const
 {
-	// TODO: Complete me!
+	if (Character::Attack)
+		enemy.SetHealthPoints(std::min(enemy.GetHealthPoints() - attack_ + enemy.GetDefence(), enemy.GetHealthPoints()));
 }
 
 bool Character::IsDead() const
 {
-	// TODO: Complete me!
+	if (GetHealthPoints () <= 0 );
+	{
+		return true;
+	}
+
 	return false;
 }
 
 float Character::Distance(const Character& character) const
 {
-	// TODO: Complete me!
+	{
+
+		std::cout << "Distance :" << ((xy_.first - character.xy_.first) + (xy_.second - character.xy_.second));
+
+		return (float)abs((xy_.first - character.xy_.first) + (xy_.second - character.xy_.second));
+	}
 	return 1.0f;
 }
